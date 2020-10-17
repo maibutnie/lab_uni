@@ -71,6 +71,7 @@ void change_mtrx(int** mtrx_changed, int** mtrx, int w, int h)
 
 void print_mtrx(int** mtrx_changed, int w, int h)
 {
+    printf("New matrix: \n");
     for (int i = 0; i < h; i++)
     {
         for (int j = 0; j < w; j++)
