@@ -1,124 +1,119 @@
-//0var
 #include <stdio.h>
 #include <stdlib.h>
 
-void insert_size_mtrx(int* v, int*h);
+void insert_size(int* n, int* m);
+void transform(int** mtrx, int* mas, int n, int m);
 int** alloc_mat(int n, int m);
-void transform(int** matrix, int* mass, int m, int n);
-void insert_mtrx(int** mtrx, int v, int h);
-void get_min(int** mtrx, int* min ,int v, int h);
-void get_max(int** mtrx, int* max, int v, int h);
-void swap(int* a, int* b);
-void print_mtrx(int** mtrx_changed, int v, int h);
-void new_matrix(int** mtrx, int v, int h, int min, int max);
+void insert_mat(int** mtrx, int n, int m);
+int find_min(int** mtrx, int n, int m);
+int find_max(int** mtrx, int n, int m);
+void min_for_max(int** mtrx, int n, int m, int min, int max);
+void print_mat(int** mtrx, int n, int m);
+void free_mat(int** mtrx);
 
 int main()
 {
-    //h - horizontal v - vertical
-    int h;
-    int v;
-    insert_size_mtrx(&v, &h);
+    int v, h;
+    insert_size(&v, &h);
 
-    int** mtrx = alloc_mat(v, h);
-    insert_mtrx(mtrx, v, h);
+    int** matrix = alloc_mat(v, h);
+    insert_mat(matrix, v, h);
 
-    int min = mtrx[0][0];
-    int max = mtrx[0][0];
+    int min = find_min(matrix, v, h);
+    int max = find_max(matrix, v, h);
+    min_for_max(matrix, v, h, min, max);
 
-    get_min(mtrx, &min, v, h);
-    get_max(mtrx, &max, v, h);
-
-    new_matrix(mtrx, v, h, min, max);
-
-    print_mtrx(mtrx, v, h);
-
+    print_mat(matrix, v, h);
+    free_mat(matrix);
     return 0;
 }
 
-void insert_size_mtrx(int* v, int*h)
+void insert_size(int* n, int* m)
 {
-    printf("Insert the height and the vidth: \n");
-    scanf("%d%d", v, h);
+    printf("Insert height and width: ");
+    scanf("%d%d", n, m);
 }
 
-void transform(int** matrix, int* mass, int n, int m)
+void transform(int** mtrx, int* mas, int n, int m)
 {
     for (int i = 0; i < n; i++)
-        matrix[i] = mass + i * m;
+        mtrx[i] = mas + i * m;
 }
 
 int** alloc_mat(int n, int m)
 {
-    int* mas = (int*)calloc(n*m, sizeof(int));
-    int** matrix = (int**)calloc(n, sizeof(int*));
-    transform(matrix, mas, n, m);
-    return matrix;
+    int* mas = (int*) calloc(n * m, sizeof(int));
+    int** mtrx = (int**) calloc(n, sizeof(int*));
+    transform(mtrx, mas, n, m);
+    return mtrx;
 }
 
-void insert_mtrx(int** mtrx, int v, int h)
+void insert_mat(int** mtrx, int n, int m)
 {
     printf("Insert matrix: \n");
-    for (int i = 0; i < v; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < h; j++)
+        for (int j = 0; j < m; j++)
+            scanf("%d", *(mtrx + i) + j);
+    }
+}
+
+int find_min(int** mtrx, int n, int m)
+{
+    int min = mtrx[0][0];
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < m - i - 1; j++)
         {
-            scanf("%d", &mtrx[i][j]);
+            if (mtrx[i][j] < min)
+                min = mtrx[i][j];
+        }
+    }
+    return min;
+}
+
+int find_max(int** mtrx, int n, int m)
+{
+    int max = mtrx[n - 1][m - 1];
+    for (int i = n - 1; i > 0; i--)
+    {
+        for (int j = m - 1; j > n - 1 - i; j--)
+        {
+            if (mtrx[i][j] > max)
+                max = mtrx[i][j];
+        }
+    }
+    return max;
+}
+
+void min_for_max(int** mtrx, int n, int m, int min, int max)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (mtrx[i][j] == min)
+                mtrx[i][j] = max;
+            else 
+            if (mtrx[i][j] == max)
+                mtrx[i][j] = min;
         }
     }
 }
 
-void get_min(int** mtrx, int* min, int v, int h)
-{
-    for (int i = 0; i < v; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            if (*min > mtrx[i][j])
-                *min = mtrx[i][j];
-        }
-    }
-}
-
-void get_max(int** mtrx, int* max, int v, int h)
-{
-    for (int i = 0; i < v; i++)
-    {
-        for (int j = 0; j < h; j++)
-        {
-            if (*max < mtrx[i][j])
-                *max = mtrx[i][j];
-        }
-    }
-}
-
-void swap(int *a, int *b)
-{
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
-void new_matrix(int** mtrx, int v, int h, int min, int max)
-{
-    for (int i = 0; i < v - 1; i++)
-    {
-        for(int j = 0; j < h - i - 1; j++)
-        {
-            if (mtrx[i][j] == min || mtrx[i][j] == max || mtrx[v - i - 1][h - j - 1] == min || mtrx[v - i - 1][h - j - 1] == max)
-                swap(&mtrx[v - i - 1][h - j - 1], &mtrx[i][j]);
-        }
-    }
-}
-
-void print_mtrx(int** mtrx_changed, int v, int h)
+void print_mat(int** mtrx, int n, int m)
 {
     printf("New matrix: \n");
-    for (int i = 0; i < v; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < h; j++)
-        {
-            printf("%d ", mtrx_changed[i][j]);
-        }
-        printf("\n");
+        for (int j = 0; j < m; j++)
+            printf("%d ", mtrx[i][j]);
+        printf("%s", "\n");
     }
+}
+
+void free_mat(int** mtrx)
+{
+    free(*mtrx);
+    free(mtrx);
 }
