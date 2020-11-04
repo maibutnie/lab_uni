@@ -7,6 +7,7 @@ int** alloc_mat(int n, int m);
 void transform(int** matrix, int* mass, int m, int n);
 void change_mtrx(int** mtrx_changed, int** mtrx, int w, int h);
 void print_mtrx(int** mtrx_changed, int w, int h);
+void free_mat(int** mtrx);
 
 int main()
 {
@@ -15,15 +16,14 @@ int main()
     insert_size_mtrx(&w, &h);
 
     int** mtrx = alloc_mat(w, h);
-
     insert_mtrx(mtrx, w, h);
 
     int **mtrx_changed = alloc_mat(h, w);
-
     change_mtrx(mtrx_changed, mtrx, w, h);
-
     print_mtrx(mtrx_changed, w, h);
 
+    free_mat(mtrx);
+    free_mat(mtrx_changed);
     return 0;
 }
 
@@ -53,7 +53,7 @@ void insert_mtrx(int** mtrx, int w, int h)
     {
         for (int j = 0; j < h; j++)
         {
-            scanf("%d", &mtrx[i][j]);
+            scanf("%d", *(mtrx + i) + j);
         }
     }
 }
@@ -80,4 +80,10 @@ void print_mtrx(int** mtrx_changed, int w, int h)
         }
         printf("\n");
     }
+}
+
+void free_mat(int** mtrx)
+{
+    free(*mtrx);
+    free(mtrx);
 }
