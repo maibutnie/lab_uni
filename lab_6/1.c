@@ -1,3 +1,4 @@
+// 1c and 2c should be redone but i have done it on a day of rk
 #include <stdio.h>
 #include <stdlib.h>
 
