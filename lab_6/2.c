@@ -1,3 +1,4 @@
+//should be redone but i have done it on rk
 #include <stdio.h>
 #include <stdlib.h>
 
