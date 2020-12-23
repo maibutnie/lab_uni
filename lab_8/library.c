@@ -71,6 +71,39 @@ char* ftstrdel(char* s, int count)
     return s;
 }
 
+char* ftstrpbrk (char* str, const char* sym)
+{
+    char* p, *q;
+    int check = 1;
+    for (p = str; *p && check;)
+    {
+        for (q=sym; *q && *p != *q; q++);
+        if (*p == *q)
+            check = 0;
+        else
+            p++;
+    }
+    return *p ? p : 0;
+}
+
+char* strsub(char* sub_s, char* s, int len)
+{
+    int i;
+    for (i = 0; (i < len) && (sub_s[i] = s[i]); i++);
+    if (i == len)
+        sub_s[i] = 0;
+    return sub_s;
+}
+
+void find_word(char* string, char* word)
+{
+    char* p = string;
+    char* ps = ftstrpbrk(string, " ");
+    int len = ps - p;
+    strsub(word, string, len + 1);
+    string = ftstrdel(string, len);
+}
+
 char* replace(char* s, char* suf1, char* suf2)
 {
     for (char* p = s; (p = ftstrstr(p, suf1)); p += ftstrlen(suf2))
