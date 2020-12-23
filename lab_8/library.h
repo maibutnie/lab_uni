@@ -16,7 +16,7 @@ void output_string(char* s);
 void input_string(char* s);
 char* ftstrstr(char* s1, const char* s2);
 char* ftstrcpy(char* dest, const char* src);
-void remove_spaces(char* str, char* str2);
 char* make_place();
+void find_word(char* string, char* word);
 
 #endif
