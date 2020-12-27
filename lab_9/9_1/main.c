@@ -2,7 +2,7 @@
 
 int main()
 {
-    char* str = make_place(SIZE);
+    char* str = make_place();
     input_string(str);
     remove_dots(str);
     remove_commas(str);
