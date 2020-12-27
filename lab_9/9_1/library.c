@@ -1,8 +1,8 @@
 #include "library.h"
 
-char* make_place(int size)
+char* make_place()
 {
-    return (char*)calloc(size + 1, sizeof(char));
+    return (char*)calloc(SIZE + 1, sizeof(char));
 }
 
 void input_string(char* s)
