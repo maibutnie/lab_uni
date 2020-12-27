@@ -7,7 +7,7 @@
 
 #define SIZE 400
 
-char* make_place(int size);
+char* make_place();
 void input_string(char* s);
 void output_string(char* s);
 void free_string(char* s);
